@@ -102,7 +102,10 @@ export class ContactService {
                 return contactByPhoneNumber;
             }
         } catch (err) {
-            throw err;
+            throw new HttpException(
+                `Served failed to respond due to ${err}`,
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
         }
     }
 
@@ -126,7 +129,10 @@ export class ContactService {
                 return contactByEmail;
             }
         } catch (err) {
-            throw err;
+            throw new HttpException(
+                `Served failed to respond due to ${err}`,
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
         }
     }
 
@@ -141,7 +147,10 @@ export class ContactService {
             newContact.linkPrecedence = Precedence.PRIMARY;
             return await this.contactRepository.save(newContact);
         } catch (err) {
-            throw err;
+            throw new HttpException(
+                `Served failed to respond due to ${err}`,
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
         }
     }
 
@@ -154,7 +163,10 @@ export class ContactService {
             newContact.linkPrecedence = Precedence.SECONDARY;
             await this.contactRepository.save(newContact);
         } catch (err) {
-            throw err;
+            throw new HttpException(
+                `Served failed to respond due to ${err}`,
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
         }
     }
 
@@ -173,7 +185,10 @@ export class ContactService {
                 return contactTwo;
             }
         } catch (err) {
-            throw err;
+            throw new HttpException(
+                `Served failed to respond due to ${err}`,
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
         }
     }
 
@@ -185,7 +200,10 @@ export class ContactService {
                 .where('contact.linkedId = :primaryContactId', { primaryContactId })
                 .getMany();
         } catch (err) {
-            throw err;
+            throw new HttpException(
+                `Served failed to respond due to ${err}`,
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
         }
     }
 }

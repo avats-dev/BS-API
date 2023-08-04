@@ -4,15 +4,6 @@ import { AppService } from './app.service';
 import { ContactsModule } from './contacts/contacts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config'
-import { type } from 'os';
-
-console.log(process.env.DB_TYPE)
-console.log(process.env.PG_HOST)
-console.log(process.env.PG_PORT)
-console.log(process.env.PG_USER)
-console.log(process.env.PG_PASSWORD)
-console.log(process.env.PG_DB)
-
 
 @Module({
     imports: [
