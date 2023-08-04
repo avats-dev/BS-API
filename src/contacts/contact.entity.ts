@@ -5,8 +5,6 @@ import {
     CreateDateColumn, 
     UpdateDateColumn, 
     DeleteDateColumn, 
-    ManyToOne, 
-    JoinColumn,
 } from 'typeorm';
 
 /*
@@ -36,9 +34,8 @@ export class Contact {
     @Column()
     email: string;
 
-    @ManyToOne(() => Contact, contact => contact.id, { nullable: true })
-    @JoinColumn({name: 'linkedToId' })
-    linkedTo: Contact;
+    @Column({ nullable: true })
+    linkedId: number;
 
     @Column({
         type: 'enum',

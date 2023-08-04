@@ -9,7 +9,6 @@ Response format
     }
 }
 */
-
 export class ContactResponseDto {
     primaryContactId: number;
     emails: string[];
@@ -18,5 +17,17 @@ export class ContactResponseDto {
 }
 
 export class IdentifyResponseDto {
-  contacts: ContactResponseDto;
+    contact: ContactResponseDto;
+}
+
+/*
+Request format
+{
+	"email": "mcfly@hillvalley.edu",
+	"phoneNumber": "123456"
+}
+*/
+export class IdentifyRequestDto {
+    email?: string;
+    phoneNumber?: string;
 }
