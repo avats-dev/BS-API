@@ -1,73 +1,78 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# BiteSpeed Assignment Task: Identity Reconciliation 
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> Task Reference: https://bitespeed.notion.site/Bitespeed-Backend-Task-Identity-Reconciliation-53392ab01fe149fab989422300423199
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Implementation 
 
-## Description
+I've created the mentioned `/identify` API using NestJS as framework and PostgreSQL as db. The NestJS framework uses depepndency injection (like Spring from Java) for decoupled and scalable implementation based on MVC architecture. I've created a `contacts` module which is wired to main app module. `contacts` module consists of contacts controller which has the `identify` POST API as is required in the task. The whole implementation is done using Typescript language.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**Apart from the scenarios mentioned in the task, I've assumed following scenarios as invalid:**
 
-## Installation
+- Scenario-1 : Both email and phoneNumber is not provided in the request
+```
+{
+	"email": null,
+	"phoneNumber": null
+}
+```
+With this request, you'll get a `BAD_REQUEST` response with an error message of invalid request.
 
-```bash
-$ npm install
+- Scenario-2 : Either email or phoneNumber is provided but there exists no contact containing them
+```
+{
+	"email": "dummyEmail",
+	"phoneNumber": null
+}
+```
+or
+```
+{
+	"email": null,
+	"phoneNumber": "dummyNumber"
+}
+```
+With these requests, you'll get a `NOT_FOUND` response with an appropriate error message.
+
+> For all the other cases where code errors out, application returns an `INTERNAL_SERVER_ERROR` response with the catched error message.
+
+## Sample Response
+With a valid request, you'll get a response like below:
+```
+{
+    "contact": {
+        "primaryContactId": 12,
+        "emails": [
+            "mcfly@hillvalley.edu",
+            "lorraine@hillvalley.edu",
+            "abc.xyz",
+            "huhaaa@gmail.com"
+        ],
+        "phoneNumbers": [
+            "123456",
+            "123123",
+            "252525"
+        ],
+        "secondaryContactIds": [
+            13,
+            14,
+            17,
+            18,
+            19
+        ]
+    }
+}
 ```
 
-## Running the app
+## Deployment
 
-```bash
-# development
-$ npm run start
+- I have deployed the PostgreSQL db on [render](https://render.com/).
+- I have deployed the NestJS application on [cyclic](https://www.cyclic.sh/) as there is not out of the box support for deploying NestJS apps on render.
 
-# watch mode
-$ npm run start:dev
+> Application link: https://shiny-jade-bream.cyclic.app
 
-# production mode
-$ npm run start:prod
-```
+> API link: https://shiny-jade-bream.cyclic.app/contacts/identify
 
-## Test
+---
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+## Author Details
+![resume-image]("https://i.ibb.co/YhY9K7V/resume-image.jpg")
