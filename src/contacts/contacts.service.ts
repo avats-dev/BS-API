@@ -176,12 +176,14 @@ export class ContactService {
                 contactTwo.linkedId = contactOne.id;
                 contactTwo.linkPrecedence = Precedence.SECONDARY;
                 await this.contactRepository.save(contactTwo);
+                await this.changeLinkedIdMapping(contactTwo, contactOne);
                 return contactOne;
             }
             else {
                 contactOne.linkedId = contactTwo.id;
                 contactOne.linkPrecedence = Precedence.SECONDARY;
                 await this.contactRepository.save(contactOne);
+                await this.changeLinkedIdMapping(contactOne, contactTwo);
                 return contactTwo;
             }
         } catch (err) {
@@ -189,6 +191,15 @@ export class ContactService {
                 `Served failed to respond due to ${err}`,
                 HttpStatus.INTERNAL_SERVER_ERROR,
             );
+        }
+    }
+
+    async changeLinkedIdMapping(previousPrimaryContact: Contact, newPrimaryContact: Contact): Promise<void> {
+        // change mapping of other contacts which previously pointed to old primary contact
+        const secContacts: Contact[] = await this.getAllSecondaryContacts(previousPrimaryContact);
+        for(const contact of secContacts) {
+            contact.linkedId = newPrimaryContact.id;
+            await this.contactRepository.save(contact);
         }
     }
 
