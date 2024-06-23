@@ -75,4 +75,4 @@ With a valid request, you'll get a response like below:
 ---
 
 ## Resume for reference
-![resume-image](https://github.com/avats-dev/BS-API/assets/35889327/16585c56-07dc-4a69-9dc6-46fa2c01a00b)
+> bit.ly/resvats
